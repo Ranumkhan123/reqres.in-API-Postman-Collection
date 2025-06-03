@@ -1,0 +1,957 @@
+{
+	"info": {
+		"_postman_id": "c5a79821-2a28-4d2e-907c-f9f503eff933",
+		"name": "ReqRes.in",
+		"description": "Collection of REST API's calls for [https://reqres.in/](https://reqres.in/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15491437"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List of Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types before data array\r",
+									"pm.test(\"Validate data types of Page, Per_pages, Total, Total_pages\", () => {\r",
+									"\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.page).to.be.a('number');\r",
+									"    pm.expect(jsonData.per_page).to.be.a('number');\r",
+									"    pm.expect(jsonData.total).to.be.a('number');\r",
+									"    pm.expect(jsonData.total_pages).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types of the array\r",
+									"pm.test(\"Validate data types of the data array\", () => {\r",
+									"    const data = pm.response.json().data;\r",
+									"    const item = data[0];\r",
+									"\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(item.id).to.be.a('number');\r",
+									"    pm.expect(item.email).to.be.a('string');\r",
+									"    pm.expect(item.first_name).to.be.a('string');\r",
+									"    pm.expect(item.last_name).to.be.a('string');\r",
+									"    pm.expect(item.avatar).to.match(/\\.(jpg|jpeg|png|gif)$/);\r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types of the support Array\r",
+									"pm.test(\"Validate data types inside the support array\", () => {\r",
+									"    const support = pm.response.json().support;\r",
+									"\r",
+									"    // Check types\r",
+									"    pm.expect(support.text).to.be.a(\"string\");\r",
+									"    pm.expect(support.url).to.match(/^(http|https):\\/\\/[^ \"]+$/);\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/users?page=2",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate response body and data types of the data array\", () => {\r",
+									"    const data = pm.response.json().data;\r",
+									"\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(data.id).to.be.a('number');\r",
+									"    pm.expect(data.email).to.be.a('string');\r",
+									"    pm.expect(data.first_name).to.be.a('string');\r",
+									"    pm.expect(data.last_name).to.be.a('string');\r",
+									"    pm.expect(data.avatar).to.match(/\\.(jpg|jpeg|png|gif)$/);\r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types after Array\r",
+									"pm.test(\"Validate data types inside the support array\", () => {\r",
+									"    const support = pm.response.json().support;\r",
+									"\r",
+									"    // Check types\r",
+									"    pm.expect(support.text).to.be.a(\"string\");\r",
+									"    pm.expect(support.url).to.match(/^(http|https):\\/\\/[^ \"]+$/);\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log(\"User Information\")\r",
+									"console.log(\"ID:\", jsonData.data.id);\r",
+									"console.log(\"Email:\", jsonData.data.email);\r",
+									"console.log(\"First Name:\", jsonData.data.first_name);\r",
+									"console.log(\"Last Name:\", jsonData.data.last_name);\r",
+									"console.log(\"Avatar:\", jsonData.data.avatar);\r",
+									"console.log(\"Support URL:\", jsonData.support.url);\r",
+									"console.log(\"Support Text:\", jsonData.support.text);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/users/{{userid}}",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users",
+								"{{userid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Non Existing User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000);\r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate response body is empty\", () => {\r",
+									"    pm.expect(jsonData).to.be.empty;     \r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseURL}}/api/users/23",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"23"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New User",
+			"item": [
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate response body and data types of the data\", () => {\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.firstName).to.be.a('string');\r",
+									"    pm.expect(jsonData.lastName).to.be.a('string'); \r",
+									"    pm.expect(jsonData.job).to.be.a('string');\r",
+									"    pm.expect(jsonData.jobdescription).to.be.a('string'); \r",
+									"    pm.expect(jsonData.id).to.be.a('number');\r",
+									"    pm.expect(jsonData.createdAt).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log();\r",
+									"console.log(\"User Information\")\r",
+									"console.log(\"ID:\", jsonData.id);\r",
+									"console.log(\"First Name:\", jsonData.firstName);\r",
+									"console.log(\"Last Name:\", jsonData.lastName);\r",
+									"console.log(\"Job:\", jsonData.job);\r",
+									"console.log(\"Job Description:\", jsonData.jobdescription); \r",
+									"console.log(\"Date and Time of Creation:\", jsonData.createdAt);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"job\": \"{{$randomJobTitle}}\",\r\n    \"jobdescription\": \"{{$randomJobType}}\",\r\n    \"id\": 679\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/users",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate response body and data types of the data\", () => {\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.first_name).to.be.a('string');\r",
+									"    pm.expect(jsonData.last_name).to.be.a('string'); \r",
+									"    pm.expect(jsonData.updatedAt).to.be.a('string');\r",
+									"\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log();\r",
+									"console.log(\"User Information\")\r",
+									"console.log(\"First Name:\", jsonData.first_name);\r",
+									"console.log(\"Last Name:\", jsonData.last_name);\r",
+									"console.log(\"Date and Time of Creation:\", jsonData.updatedAt);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"{{$randomFirstName}}\",\r\n    \"last_name\": \"{{$randomLastName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/users/2",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Registration",
+			"item": [
+				{
+					"name": "Registration Successful",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate response body and data types of the data\", () => {\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.id).to.be.a('number');\r",
+									"    pm.expect(jsonData.token).to.be.a('string'); \r",
+									"\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log();\r",
+									"\r",
+									"\r",
+									"// Print login successful\r",
+									"if (pm.response.code == 200) {\r",
+									"    console.log(\"Login Successful\");\r",
+									"} else {\r",
+									"    console.log(\"Login Unsuccessful\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/register",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registration Unsuccessful",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate the data type of the error\", () => {\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.error).to.be.a('string');\r",
+									"   \r",
+									"\r",
+									"});\r",
+									"\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log();\r",
+									"\r",
+									"\r",
+									"// Print login successful\r",
+									"if (pm.response.code == 200) {\r",
+									"    console.log(\"Login Successful\");\r",
+									"} else {\r",
+									"    console.log(\"Login Unsuccessful\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/register",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login Successful",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate response body's data type\", () => {\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.token).to.be.a('string');\r",
+									"\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log();\r",
+									"\r",
+									"\r",
+									"// Print login successful\r",
+									"if (pm.response.code == 200) {\r",
+									"    console.log(\"Login Successful\");\r",
+									"} else {\r",
+									"    console.log(\"Login Unsuccessful\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/login",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Unsuccessful",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//  Tests\r",
+									"//status Code\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"//Content Type\r",
+									"pm.test(\"Content-Type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"//Response time\r",
+									"pm.test(\"Response time is less than 3000 seconds \" , function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//Response Size\r",
+									"pm.test(\"Response size is less than 5000 Bytes\", function () {\r",
+									"    pm.expect(pm.response.size().body).to.be.below(5000); \r",
+									"});\r",
+									"\r",
+									"//  Body: check for data types\r",
+									"pm.test(\"Validate the data type of the error\", () => {\r",
+									"    // Data Types: check first item for expected fields\r",
+									"    pm.expect(jsonData.error).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"//  Log Summary Info\r",
+									"console.clear();\r",
+									"console.log(\"Summary Info\");\r",
+									"console.log(\"Status Code:\", pm.response.code);\r",
+									"console.log(\"Response Time:\", pm.response.responseTime + \"ms\");\r",
+									"console.log(\"Response Size:\", pm.response.size().body + \" bytes\");\r",
+									"console.log();\r",
+									"\r",
+									"\r",
+									"// Print login successful\r",
+									"if (pm.response.code == 200) {\r",
+									"    console.log(\"Login Successful\");\r",
+									"} else {\r",
+									"    console.log(\"Login Unsuccessful\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{x-api-key}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseURL}}/login",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
