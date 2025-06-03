@@ -53,7 +53,14 @@ This project is built by Ranum Khan as part of her API Testing Practice Portfoli
 I'm a passionate Software QA Engineer with 4+ years of experience in manual testing. I'm currently transitioning into advanced API automation and sharing my learning publicly. If you like this collection, if this helped or inspired you, do give a ⭐ star or fork it! and connect via LinkedIn. PRs and suggestions are welcome!
 
 https://www.linkedin.com/in/ranum-khan-qaengineer
+
 https://github.com/Ranumkhan123
+
 ranumkhan123@gmail.com
 
+---
+
+# Note
+
+This collection is built on the mock API provided by Reqres.in. It's safe for public testing and doesn't store real data.
 
