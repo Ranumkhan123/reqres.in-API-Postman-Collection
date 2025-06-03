@@ -5,14 +5,16 @@ This repository contains a full Postman test suite built using the [Reqres.in](h
 ---
 
 # Project Objective
-The objective of this project is to demonstrate how to perform comprehensive API testing using industry-standard tools and techniques. This comprises of:
+The objective of this project is to demonstrate how to perform comprehensive API testing using industry-standard tools and techniques.The features that covered are:
 
-- Creating a modular and reusable Postman Collection.
-- Using environment variables for enhanced flexibility.
-- Automating test execution with Newman.
-- Generating visual test reports in both HTML and PDF formats.
-- Practicing real-world scenarios, such as authorization, edge cases, and error handling.
-- Conducting API monitoring for scheduled health checks.
+- GET, POST, PUT, PATCH, DELETE requests
+- Collection and environment variables
+- Pre-request & Test Scripts
+- Response body & status code validation
+- Dynamic data assertions
+- Real-time scenarios and error handling
+- Newman support for CLI test execution
+- Screenshots for visual reference
 
 ---
 
@@ -35,10 +37,10 @@ The objective of this project is to demonstrate how to perform comprehensive API
 
 # How to Run
 
-- Import ReqRes_collection.json into Postman.
-- Import environment (reqresenv.json) into Postman.
-- Run requests step-by-step or as a collection.
-- Open Console to view logs.
+1. Import the Collection and Environment files.
+2. Set the active environment as `reqresenv`.
+3. Run the full collection or individual requests.
+4. Check the **Console** and **Tests tab** for assertions.
 
 ---
 
